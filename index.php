@@ -16,7 +16,7 @@
     </div>
 </header>
 <section>
-    <div id="resultado_em_json"></div>
+    <textarea style="height: 400px; width: 100%;" id="resultado_em_json"></textarea>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="SheetJS/xlsx.full.min.js"></script>
@@ -30,7 +30,7 @@
     function montaPreview(json) {
         var result = '';
         for (let i = 0; i < json.length; i++) {
-            linha = 'update ' + banco + ' set ' + coluna + " = '" + json[i]['es_es'] + "' where token = '" + json[i]['Token'] + "'; <br>";
+            linha = 'update ' + banco + ' set ' + coluna + " = '" + json[i]['es_es'] + "' where token = '" + json[i]['Token'] + "'; &#13;&#10;";
             result += linha;
         }
         $("#resultado_em_json").empty();
