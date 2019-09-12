@@ -1,44 +1,63 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt_br">
 <head>
     <meta charset="UTF-8">
-    <title>SheetJS</title>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/xlsx.full.min.js"></script>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gerador de Consultas</title>
 </head>
 <body>
-    <div id="wrapper">
-        <input type="file" id="inputUploadExcel">
+<header>
+    <div>
+        <label>Importar EXCEL</label>
+        <input type="file" name="importTraducao" id="importTraducao" class="upload-box" placeholder="Fazer Upload"
+               accept=".csv, .xls, .xlsx" title="Fazer Upload">
     </div>
-</body>
+</header>
+<section>
+    <div id="resultado_em_json"></div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="SheetJS/xlsx.full.min.js"></script>
 <script>
-    $('#inputUploadExcel').change(function (e) {
+    var banco = 'basilar.en_internacionalizacao';
+    var coluna = 'es_es';
+    $('#importTraducao').click(function () {
+        this.value = '';
+    });
+
+    function montaPreview(json) {
+        var result = '';
+        for (let i = 0; i < json.length; i++) {
+            linha = 'update ' + banco + ' set ' + coluna + " = '" + json[i]['es_es'] + "' where token = '" + json[i]['Token'] + "'; <br>";
+            result += linha;
+        }
+        $("#resultado_em_json").empty();
+        $("#resultado_em_json").append(result);
+    }
+
+    $('#importTraducao').change(function (e) {
         var files = e.target.files, f = files[0];
         var reader = new FileReader();
-
         reader.onload = function (e) {
+            tokensJSON = convertePlanilhaEmJSON(e);
+            montaPreview(tokensJSON);
+        };
+        reader.readAsArrayBuffer(f);
+    });
+    function convertePlanilhaEmJSON(e) {
         var data = new Uint8Array(e.target.result);
 
-        var workbook = XLSX.read(data, {type:"array"});
+        var workbook = XLSX.read(data, { type: "array" });
 
         var first_sheet_name = workbook.SheetNames[0];
 
         var worksheet = workbook.Sheets[first_sheet_name];
-        console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));
 
+        return XLSX.utils.sheet_to_json(worksheet, { raw: true });
 
-        // var htmlstr = XLSX.write(wb,{sheet:"", type:'binary',bookType:'json'});
-        // $('#wrapper')[0].innerHTML += htmlstr;
-    };
-
-    reader.readAsArrayBuffer(f);
-    });
-    function doit(type, fn, dl) {
-        var elt = document.getElementById('data-table');
-        var wb = XLSX.utils.table_to_book(elt, {sheet:"Sheet JS"});
-        return dl ?
-            XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) :
-            XLSX.writeFile(wb, fn || ('test.' + (type || 'xlsx')));
     }
 </script>
+</body>
 </html>
