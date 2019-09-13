@@ -28,6 +28,7 @@
         <label>Operação: </label>
         <select id="operacao">
             <option value="Update">Update</option>
+            <option value="Insert">Insert</option>
         </select>
     </div>
     <div id="columns"></div>
@@ -35,7 +36,7 @@
 <section>
     <textarea style="height: 400px; width: 100%;" id="resultado_em_json"></textarea>
 </section>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="SheetJS/xlsx.full.min.js"></script>
 <script>
     $('#importTraducao').click(function () {
@@ -53,15 +54,7 @@
         }
         return null;
     }
-    function getTotalCheck(colunas) {
-        var totalChecado = 0;
-        for(let ii = 0; ii < colunas.length; ii++) {
-            if($('#' + colunas[ii]).is(":checked")){
-                totalChecado++;
-            }
-        }
-        return totalChecado;
-    }
+
     function criaConsultas(json, colunas) {
         var result = '';
         var banco = $('#db').val();
@@ -71,37 +64,41 @@
             tabela = "." + $('#table').val();
         }
 
-        if(banco == "" && tabela == "") {
+        if(tabela == "") {
             $("#resultado_em_json").empty();
             $("#resultado_em_json").append("Informe a tabela!");
             return;
         }
         var params = "";
         var operacao = $('#operacao').val();
-        var totalChecado = getTotalCheck(colunas);
 
         for (let i = 0; i < json.length; i++) {
             for(let ii = 0; ii < colunas.length; ii++) {
                 if($('#' + colunas[ii]).is(":checked")){
                     coluna = colunas[ii];
                     params += coluna + " = '" + json[i][coluna] + "'";
-                    if(ii < (totalChecado - 1)) {
-                        params += ', '
-                    }
+                    params += ', '
                 }
             }
+            var pos = params.lastIndexOf(',');
+            params = params.substring(0, pos);
+
             if(operacao === "Update") {
                 pk = $('#pk').val();
-                linha = 'update ' + banco + tabela + ' set ' + params + ' where ' + pk + " = '" + json[i][pk] + "'; &#13;&#10;";
+                linha = 'update ' + banco.toLowerCase() + tabela.toLowerCase() + ' set ' + params + ' where ' + pk + " = '" + json[i][pk] + "'; &#13;&#10;";
+            } else {
+                linha = 'insert into ' + banco.toLowerCase() + tabela.toLowerCase() + ' set ' + params + "; &#13;&#10;";
             }
             result += linha;
         }
+        console.log(operacao);
         $("#resultado_em_json").empty();
         $("#resultado_em_json").append(result);
     }
 
     var colunasT;
     var jsonS;
+    var ev = false;
     $('#importTraducao').change(function (e) {
         var files = e.target.files, f = files[0];
         var reader = new FileReader();
@@ -112,6 +109,25 @@
             criaConsultas(jsonS, colunasT);
         };
         reader.readAsArrayBuffer(f);
+        if(ev === false){
+
+            $('#db').keyup(function() {
+                criaConsultas(jsonS, colunasT)
+            });
+            $('#table').keyup(function() {
+                criaConsultas(jsonS, colunasT)
+            });
+            $('#operacao').change(function() {
+                if($('#operacao').val() == "Insert"){
+                    $('#pk-div').hide();
+                    criaConsultas(jsonS, colunasT);
+                    return;
+                }
+                $('#pk-div').show();
+                criaConsultas(jsonS, colunasT);
+            });
+            ev = true;
+        }
     });
 
     function exibeCamposColunas(arrayColunas, divId) {
@@ -121,14 +137,14 @@
             return;
         }
         totalCheckbox = "";
-        selectPk = "Primary Key: <select id='pk' onchange='criaConsultas(jsonS, colunasT)'>";
+        selectPk = "<div id='pk-div'>PK: <select id='pk' onchange='criaConsultas(jsonS, colunasT)'>";
         for(let i=0; i < arrayColunas.length; i++) {
             if(arrayColunas[i] != "__EMPTY"){
-                totalCheckbox += "<input type='checkbox' checked id='" + arrayColunas[i] + "' value='" + arrayColunas[i] + "' onchange='criaConsultas(jsonS, colunasT)'> " + arrayColunas[i];
-                selectPk += "<option value='" + arrayColunas[i] + "'>" + arrayColunas[i] + "</option>"
+                totalCheckbox += "<input type='checkbox' checked id='" + arrayColunas[i] + "' value='" + arrayColunas[i] + "' onchange='criaConsultas(jsonS, colunasT)'> <label for='" + arrayColunas[i] + "'>" + arrayColunas[i].toLowerCase() + "</label>";
+                selectPk += "<option value='" + arrayColunas[i] + "'>" + arrayColunas[i] + "</option>";
             }
         }
-        selectPk += "</select>";
+        selectPk += "</select></div>";
         $('#' + divId).empty();
         $('#' + divId).append(selectPk + "<div>" + totalCheckbox + "</div>");
     }
