@@ -28,10 +28,10 @@ function criaConsultas(json, colunas) {
         $("#resultado_em_json").append("Informe a tabela!");
         return;
     }
-    var params = "";
     var operacao = $('#operacao').val();
 
     for (let i = 0; i < json.length; i++) {
+        var params = "";
         for(let ii = 0; ii < colunas.length; ii++) {
             if($('#' + colunas[ii]).is(":checked")){
                 coluna = colunas[ii];
@@ -52,7 +52,7 @@ function criaConsultas(json, colunas) {
         }
         result += linha;
     }
-    console.log(operacao);
+
     $("#resultado_em_json").empty();
     $("#resultado_em_json").append(result);
 
@@ -83,11 +83,11 @@ $('#importTraducao').change(function (e) {
         });
         $('#operacao').change(function() {
             if($('#operacao').val() == "Insert"){
-                $('#pk-div').hide();
+                $('#pk-div').addClass("disabled");
                 criaConsultas(jsonS, colunasT);
                 return;
             }
-            $('#pk-div').show();
+            $('#pk-div').removeClass("disabled");
             criaConsultas(jsonS, colunasT);
         });
         ev = true;

@@ -1,0 +1,96 @@
+body {
+    font-size: 13px;
+    line-height: 1.8;
+    color: #222;
+    background: #f8f8f8;
+    font-weight: 400;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.container-m {
+    width: 900px;
+    background: #fff;
+    margin: 0 auto;
+    box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
+    -webkit-box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
+    -o-box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
+    -ms-box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -o-border-radius: 20px;
+    -ms-border-radius: 20px;
+}
+@media screen and (max-width: 992px) {
+    .container-m {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 767px) {
+    .pad-0 {
+        padding: 0;
+    }
+    .mt-15 {
+        margin-top: 15px;
+    }
+}
+
+.space-card {
+    padding: 30px 60px;
+}
+
+h2 {
+    line-height: 1.66;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    color: #222;
+    font-size: 36px;
+}
+
+#inputGroupFileExcel, label, input[type="text"], select {
+    font-size: 13px !important;
+}
+.input-group-text{
+    background-color: #404040;
+    color: #fff;
+}
+.custom-file-label::after {
+    display: none;
+}
+.bc-green{
+    background-color: #557d65;
+}
+.bc-blue{
+    background-color: #43598c;
+}
+.bc-yellow{
+    background-color: #d8d20e;
+}
+.bc-grey{
+    background-color: #94948c;
+}
+.black-border textarea {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.black-border .form-control:focus {
+    border: 1px solid rgba(0, 0, 0, 0.77);
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.66);
+}
+.adj-btn {
+    font-size: 11px;
+    line-height: 0;
+    margin: 0;
+    padding: 0 20px;
+    height: 34px;
+}
+.col-4-5 {
+    -ms-flex: 0 0 40.52%;
+    flex: 0 0 40.52%;
+    max-width: 45.333333%;
+}
+.disabled {
+    pointer-events: none;
+    opacity: 0;
+}
