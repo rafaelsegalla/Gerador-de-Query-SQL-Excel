@@ -35,7 +35,11 @@ function criaConsultas(json, colunas) {
         for(let ii = 0; ii < colunas.length; ii++) {
             if($('#' + colunas[ii]).is(":checked")){
                 coluna = colunas[ii];
-                params += coluna + " = '" + json[i][coluna] + "'";
+                $('#aspas' + colunas[ii]).is(":checked") ?
+                params += coluna + " = '" + json[i][coluna] + "'"
+                 :
+                params += coluna + " =  " + json[i][coluna];
+                
                 params += ', '
             }
         }
@@ -97,10 +101,11 @@ $('#importTraducao').change(function (e) {
 function exibeCamposColunas(arrayColunas, divId) {
     if(arrayColunas == null) {
         $('#' + divId).empty();
-        $('#' + divId).append("<p>Não foi possivel encontrar colunas no excel selecionado.</p>");
+        $('#' + divId).append("<p style='text-align:'>Não foi possivel encontrar colunas no excel selecionado.</p>");
         return;
     }
     totalCheckbox = "";
+    totalCheckboxAspas = "<div class='col-12 mb-3'><h3>Aspas</h3>";
     // language=HTML
     selectPk = '<div class="input-group mb-3 col-sm-12 col-xs-12 col-12 col-md-6 col-xl-6" id="pk-div">' +
         '<div class="input-group-prepend">' +
@@ -112,19 +117,21 @@ function exibeCamposColunas(arrayColunas, divId) {
 
     for(let i=0; i < arrayColunas.length; i++) {
         if(arrayColunas[i] != "__EMPTY"){
-            //
-            //   <input type="checkbox" class="custom-control-input" id="defaultInline1">
-            //   <label class="custom-control-label" for="defaultInline1">1</label>
-            // </div>
             totalCheckbox += "<div class='custom-control custom-checkbox custom-control-inline'>" +
                 "<input type='checkbox' class='custom-control-input' checked id='" + arrayColunas[i] + "' value='" + arrayColunas[i] +
                 "' onchange='criaConsultas(jsonS, colunasT)'> <label class='custom-control-label' for='" + arrayColunas[i] + "'>"
+                + arrayColunas[i].toLowerCase() + "</label></div>";
+
+            totalCheckboxAspas += "<div class='custom-control custom-checkbox custom-control-inline'>" +
+                "<input type='checkbox' class='custom-control-input' checked id='aspas" + arrayColunas[i] + "' value='" + arrayColunas[i] +
+                "' onchange='criaConsultas(jsonS, colunasT)'> <label class='custom-control-label' for='aspas" + arrayColunas[i] + "'>"
                 + arrayColunas[i].toLowerCase() + "</label></div>";
 
 
             selectPk += "<option value='" + arrayColunas[i] + "'>" + arrayColunas[i] + "</option>";
         }
     }
+    totalCheckboxAspas += "</div>";
     selectPk += "</select>" +
         '<div class="input-group mb-3 col-sm-12 col-xs-12 col-12 col-md-6 col-xl-6 pad-0 mt-15">' +
         '<div class="input-group-prepend">' +
@@ -137,7 +144,7 @@ function exibeCamposColunas(arrayColunas, divId) {
         '<button type="button" id="btn-copy" class="btn btn-dark adj-btn" onclick=' + "'" + 'copyToClipboard("#resultado_em_json")' + "'" +'>Copiar</button></div></div>';
 
     $('#' + divId).empty();
-    $('#' + divId).append(selectPk + "<div class='col-12 mb-3'>" + totalCheckbox + "</div>");
+    $('#' + divId).append(selectPk + "<div class='col-12 mb-3'>" + totalCheckbox + "</div>" + totalCheckboxAspas);
 }
 
 function convertePlanilhaEmJSON(e) {
