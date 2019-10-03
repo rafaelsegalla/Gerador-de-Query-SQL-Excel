@@ -1,10 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    min-height: 100%;
+}
+
 body {
     font-size: 13px;
     line-height: 1.8;
     color: #222;
-    background: #f8f8f8;
+    background: #e8e8e8;
     font-weight: 400;
     font-family: 'Roboto Condensed', sans-serif;
+    -webkit-font-smoothing: antialiased !important; 
 }
 
 .container-m {
@@ -21,6 +33,7 @@ body {
     -webkit-border-radius: 20px;
     -o-border-radius: 20px;
     -ms-border-radius: 20px;
+    margin-top: 50px;
 }
 @media screen and (max-width: 992px) {
     .container-m {
@@ -93,4 +106,9 @@ h2 {
 .disabled {
     pointer-events: none;
     opacity: 0;
+}
+
+.tip {
+    font-weight: bold;
+    font-size: 12px; 
 }

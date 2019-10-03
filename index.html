@@ -11,84 +11,85 @@
     <link rel="stylesheet" href="css/mdb.min.css">
     <link rel="stylesheet" href="css/all.min.css">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="icon" href="img/icon.jpg">
+    <link rel="icon" href="img/icon.png">
 </head>
 <body>
-<div class="container-m">
-    <div class="space-card">
-        <div class="row">
-            <div class="col-12 col-sm-12 col-xs-12 col-md-12 col-xl-12">
-                <h2>Excel to MySQL</h2>
+    <div class="container-m">
+        <div class="space-card">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-xs-12 col-md-12 col-xl-12">
+                    <h2>Excel to SQL</h2>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 col-xs-12 col-12 col-md-12 col-xl-12">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label for="importTraducao" class="input-group-text bc-green" id="inputGroupFileExcel">
-                            <i class="fas fa-file-excel"></i>
-                        </label>
-                    </div>
-                    <div class="custom-file">
-                        <input type="file" name="importTraducao" id="importTraducao" class="custom-file-input"
-                               placeholder="Fazer Upload" accept=".csv, .xls, .xlsx" title="Fazer Upload"
-                               aria-describedby="inputGroupFileExcel">
-                        <label class="custom-file-label" for="importTraducao">Selecione um Excel</label>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 col-12 col-md-12 col-xl-12">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label for="importTraducao" class="input-group-text bc-green" id="inputGroupFileExcel">
+                                <i class="fas fa-file-excel"></i>
+                            </label>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" name="importTraducao" id="importTraducao" class="custom-file-input"
+                                placeholder="Fazer Upload" accept=".csv, .xls, .xlsx" title="Fazer Upload"
+                                aria-describedby="inputGroupFileExcel">
+                            <label class="custom-file-label" for="importTraducao">Selecione um Excel</label>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 col-xs-12 col-12 col-md-6 col-xl-6">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text bc-blue" id="basic-addon1" for="db">
-                            <i class="fas fa-database"></i>
-                        </label>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 col-12 col-md-6 col-xl-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text bc-blue" id="basic-addon1" for="db">
+                                <i class="fas fa-database"></i>
+                            </label>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Database" aria-label="Database"
+                            aria-describedby="basic-addon1" name="db" id="db">
                     </div>
-                    <input type="text" class="form-control" placeholder="Database" aria-label="Database"
-                           aria-describedby="basic-addon1" name="db" id="db">
                 </div>
-            </div>
-            <div class="col-sm-12 col-xs-12 col-12 col-md-6 col-xl-6">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text bc-blue" id="basic-addon2" for="table">
-                            <i class="fas fa-table"></i>
-                        </label>
+                <div class="col-sm-12 col-xs-12 col-12 col-md-6 col-xl-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text bc-blue" id="basic-addon2" for="table">
+                                <i class="fas fa-table"></i>
+                            </label>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Table" aria-describedby="basic-addon1"
+                            name="table" id="table" placeholder="Table">
                     </div>
-                    <input type="text" class="form-control" aria-label="Table" aria-describedby="basic-addon1"
-                           name="table" id="table" placeholder="Table">
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 col-xs-12 col-12 col-md-4 col-xl-4">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" id="basic-addon5" for="operacao">Operação </label>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 col-12 col-md-4 col-xl-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" id="basic-addon5" for="operacao">Operação </label>
+                        </div>
+                        <select id="operacao" class="browser-default custom-select form-control"
+                                aria-label="Operação" aria-describedby="basic-addon5">
+                            <option value="Update">Update</option>
+                            <option value="Insert">Insert</option>
+                        </select>
                     </div>
-                    <select id="operacao" class="browser-default custom-select form-control"
-                            aria-label="Operação" aria-describedby="basic-addon5">
-                        <option value="Update">Update</option>
-                        <option value="Insert">Insert</option>
-                    </select>
                 </div>
             </div>
-        </div>
-        <div class="row" id="columns"></div>
-        <div class="row">
-            <div class="col-sm-12 col-xs-12 col-12 col-md-12">
-                <div class="form-group black-border">
-                    <textarea style="height: 400px; width: 100%;" id="resultado_em_json"></textarea>
+            <div class="row" id="columns"></div>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 col-12 col-md-12">
+                    <div class="form-group black-border">
+                        <textarea style="height: 400px; width: 100%;" id="resultado_em_json"></textarea>
+                    </div>
                 </div>
             </div>
+            <button type="button" id="btn-copy" class="btn btn-dark adj-btn" onclick="copyToClipboard()">Copiar</button>
         </div>
     </div>
-</div>
+</body>
 <script src="js/jquery-3.4.1.min.js"></script>
 <script src="js/xlsx.full.min.js"></script>
 <script src="js/mdb.min.js"></script>
 <script src="js/main.js"></script>
-</body>
 </html>
