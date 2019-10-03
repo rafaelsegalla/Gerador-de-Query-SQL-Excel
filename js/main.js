@@ -50,9 +50,9 @@ function criaConsultas(json, colunas) {
             pk = $('#pk').val();
             prefixo = $("#prefixo").val();
 
-            linha = 'update ' + banco.toLowerCase() + tabela.toLowerCase() + ' set ' + params + ' where ' + pk + " = '" + prefixo + json[i][pk] + "'; &#13;&#10;";
+            linha = 'UPDATE' + banco.toLowerCase() + tabela.toLowerCase() + ' SET ' + params + ' WHERE ' + pk + " = '" + prefixo + json[i][pk] + "'; &#13;&#10;";
         } else {
-            linha = 'insert into ' + banco.toLowerCase() + tabela.toLowerCase() + ' set ' + params + "; &#13;&#10;";
+            linha = 'INSERT INTO ' + banco.toLowerCase() + tabela.toLowerCase() + ' SET ' + params + "; &#13;&#10;";
         }
         result += linha;
     }
@@ -104,8 +104,8 @@ function exibeCamposColunas(arrayColunas, divId) {
         $('#' + divId).append("<p style='text-align:'>Não foi possivel encontrar colunas no excel selecionado.</p>");
         return;
     }
-    totalCheckbox = "";
-    totalCheckboxAspas = "<div class='col-12 mb-3'><h3>Aspas</h3>";
+    totalCheckbox = "<div class='mb-3'><h6 class='tip'>Selecione as colunas que serão utilizadas * </h6>";
+    totalCheckboxAspas = "<div class='mb-3'><h6 class='tip'>Selecione as colunas que não necessitam de aspas * </h6>";
     // language=HTML
     selectPk = '<div class="input-group mb-3 col-sm-12 col-xs-12 col-12 col-md-6 col-xl-6" id="pk-div">' +
         '<div class="input-group-prepend">' +
@@ -141,7 +141,8 @@ function exibeCamposColunas(arrayColunas, divId) {
         '</div>' +
         '</div>' +
         '<div class="col-sm-12 col-xs-12 col-4-5 "></div><div class="row justify-content-en"><div class="input-group mb-3" >' +
-        '<button type="button" id="btn-copy" class="btn btn-dark adj-btn" onclick=' + "'" + 'copyToClipboard("#resultado_em_json")' + "'" +'>Copiar</button></div></div>';
+       '</div></div>';
+    //    '<button type="button" id="btn-copy" class="btn btn-dark adj-btn" onclick=' + "'" + 'copyToClipboard("#resultado_em_json")' + "'" +'>Copiar</button>
 
     $('#' + divId).empty();
     $('#' + divId).append(selectPk + "<div class='col-12 mb-3'>" + totalCheckbox + "</div>" + totalCheckboxAspas);
@@ -159,10 +160,10 @@ function convertePlanilhaEmJSON(e) {
     return XLSX.utils.sheet_to_json(worksheet, { raw: true });
 
 }
-function copyToClipboard(element) {
+function copyToClipboard() {
     var $temp = $("<textarea>");
     $("body").append($temp);
-    $temp.val($(element).text()).select();
+    $temp.val($('#resultado_em_json').text()).select();
     document.execCommand("copy");
     $temp.remove();
     $("#btn-copy").html("Copiado");
